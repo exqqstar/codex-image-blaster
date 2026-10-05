@@ -9,6 +9,9 @@ Use this skill to generate exactly one object model.
 
 ## Instructions
 
+This is an optional enhancement. Do not invoke it as a prerequisite for comic
+scene references or merely because an API key is configured.
+
 1. Require a world slug and one clear object id/name. If ambiguous, ask for one
    atomic physical object.
 2. Inspect `worlds/<slug>/output/<object>/` with `ls -a`.

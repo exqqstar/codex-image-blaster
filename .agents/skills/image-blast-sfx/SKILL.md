@@ -9,6 +9,9 @@ Use this skill for one sound request.
 
 ## Instructions
 
+This is an optional enhancement. Do not invoke it as a prerequisite for comic
+scene references or merely because an API key is configured.
+
 1. Require a world slug and one clear SFX target.
 2. Inspect relevant output directories with `ls -a`.
 3. Choose one mode:

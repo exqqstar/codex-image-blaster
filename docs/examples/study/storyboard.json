@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "scene_id": "study",
+  "panels": [
+    {
+      "id": "p01",
+      "camera_id": "establishing",
+      "beat": "Establish the empty study.",
+      "continuity": {
+        "time": "Day, continuous",
+        "lighting": "Daylight enters the east window from camera right.",
+        "props": [],
+        "characters": []
+      }
+    },
+    {
+      "id": "p02",
+      "camera_id": "reverse",
+      "beat": "Show the same desk from the opposite side.",
+      "axis_exception": "Intentional reverse establishing view to explain the room layout.",
+      "continuity": {
+        "time": "Day, same moment",
+        "lighting": "Daylight enters the east window from camera right.",
+        "props": [],
+        "characters": []
+      }
+    },
+    {
+      "id": "p03",
+      "camera_id": "desk-close",
+      "beat": "Return to original side and approach the desk.",
+      "axis_exception": "Return to the original side after the layout-establishing reverse.",
+      "continuity": {
+        "time": "Day, continuous",
+        "lighting": "Daylight enters the east window from camera right.",
+        "props": [],
+        "characters": []
+      }
+    }
+  ]
+}

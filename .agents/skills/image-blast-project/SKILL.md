@@ -1,11 +1,11 @@
 ---
 name: image-blast-project
-description: Create, inspect, and manage an image-blaster project envelope under worlds/<slug>. Use before other image-blast skills or whenever the user asks about project state.
+description: Create, inspect, and manage an image-blaster project envelope in the worlds directory. Use before other image-blast skills or whenever the user asks about project state.
 ---
 
 # image-blast-project
 
-Use this skill to create or inspect a world project without starting paid
+Use this skill to create or inspect a scene project without starting paid
 generation.
 
 ## Instructions
@@ -58,10 +58,14 @@ generation.
    complete, in this order:
    - `image-blast-plate` for clean plate/source cleanup after object
      confirmation, when requested or one-shotting.
-   - `image-blast-world` for static 3D environment generation.
-   - `image-blast-3d` for per-object 3D model generation.
-   - `image-blast-sfx` for ambient, object-impact, or arbitrary sound effects.
+   - `image-blast-comic-scene` for scene/camera bibles and consecutive panel references.
+   - `image-blast-world` for native/local scene references; World Labs only if explicitly selected.
+   - `image-blast-3d` for explicitly requested optional object models.
+   - `image-blast-sfx` for explicitly requested optional audio.
    - `image-blast-image-edit` for generic standalone prompt-based image edits.
 
 Do not call provider generation scripts from this skill.
 
+
+For comic scenes, clean plates and object confirmation are not prerequisites.
+Preserve furniture/props as canon; continue through the comic-scene skill.

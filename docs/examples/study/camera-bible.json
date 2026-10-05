@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "scene_id": "study",
+  "revision": 1,
+  "status": "locked",
+  "action_axis": [
+    [
+      -1,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0
+    ]
+  ],
+  "cameras": [
+    {
+      "id": "establishing",
+      "position": [
+        0,
+        1.6,
+        6
+      ],
+      "target": [
+        0,
+        1,
+        0
+      ],
+      "focal_length_mm": 28,
+      "sensor_width_mm": 36,
+      "width": 960,
+      "height": 540,
+      "framing": "Show door, window and desk."
+    },
+    {
+      "id": "reverse",
+      "position": [
+        0,
+        1.6,
+        -6
+      ],
+      "target": [
+        0,
+        0.8,
+        0
+      ],
+      "focal_length_mm": 28,
+      "sensor_width_mm": 36,
+      "width": 960,
+      "height": 540,
+      "framing": "Reverse toward desk; landmark sides change through viewpoint, not mirroring."
+    },
+    {
+      "id": "desk-close",
+      "position": [
+        2,
+        1.3,
+        3
+      ],
+      "target": [
+        0,
+        0.65,
+        0
+      ],
+      "focal_length_mm": 50,
+      "sensor_width_mm": 36,
+      "width": 960,
+      "height": 540,
+      "framing": "Focus on the desk and its east-side cabinet."
+    }
+  ]
+}

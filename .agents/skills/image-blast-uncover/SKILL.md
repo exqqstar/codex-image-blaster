@@ -5,7 +5,9 @@ description: Analyze source images, write image.json, present object candidates,
 
 # image-blast-uncover
 
-Use this skill for the no-cost image understanding and object-candidate phase.
+Use this skill for source understanding. For comic references, keep furniture
+and architecture as continuity anchors; object candidates are not 3D jobs.
+Confirm objects only when the user wants optional extraction/model generation.
 
 ## Instructions
 
@@ -50,7 +52,8 @@ Use this skill for the no-cost image understanding and object-candidate phase.
      `ambient_sound`
    - deduplicating `objects` while preserving per-source evidence
    - using the same flat schema as each per-image JSON; do not write `images[]`
-9. Present the scene summary and object candidates to the user for approval
+9. Present the scene summary and object candidates. Require object approval
+   only for optional extraction/model generation, not for comic bible authoring
    (scene name, short caption, environment/style/lighting/atmosphere/ambient
    sound, and object candidates with material and source-image evidence).
 10. After approval, create or update one durable intent file per object:
@@ -83,11 +86,11 @@ Use this skill for the no-cost image understanding and object-candidate phase.
     write generated status, jobs, request lifecycle, or output file lists
     there. Generated outputs and request state live beside `object.json` as
     indexed visible artifacts and hidden request JSON.
-12. Handle the clean plate decision:
-    - In one-shot mode, continue with the `image-blast-plate` skill and wait
-      for it before world generation.
-    - Otherwise ask whether to remove confirmed objects (plus anything else
-      the user wants removed) to create a clean plate for world generation.
+12. For comic continuity, continue to `image-blast-comic-scene`. Do not
+    automatically remove candidates or generate GLBs/SFX, including one-shot
+    comic runs. Only use `image-blast-plate` for explicitly requested removals.
+    For explicitly selected legacy 3D runs, confirm separate object extraction
+    and clean-plate scope before provider calls.
 13. Refresh state with:
 
     ```bash

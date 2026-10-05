@@ -1,4 +1,22 @@
-# Troubleshooting
+# Comic reference troubleshooting
+
+- Missing native image tool: planning still works; image generation is pending.
+  Use local guides or a selected existing local backend. Keys do not add native tools.
+- Missing scene/style/lighting: `init` creates drafts, not fictional final bibles.
+  Author the missing fields/geometry, then validate and lock both bibles.
+- Stale request/reference: canon bytes or bibles/storyboard changed. Increment
+  revisions as appropriate and make a new plan; do not overwrite old images.
+- Axis crossing: choose the intended side or document an intentional
+  `axis_exception` on that panel; do not disable validation.
+- Gallery has only guides: `local` produces SVG composition proxies. `codex`
+  produces plans until a real native image is registered.
+- Multiple scene inputs: narrow `reference_images` to the actual scene; the
+  initializer preserves all originals but cannot decide whether they belong together.
+- Windows commands previously produced no output: CLI entrypoint file URLs are
+  now cross-platform. Run from repository root and use a lowercase hyphenated slug.
+
+The following sections apply to explicitly selected legacy 3D providers/viewer.
+
 
 ## FAL Returns 403
 

@@ -1,36 +1,29 @@
 ---
 name: image-blast-image-edit
-description: Generate one prompt-based image edit from explicit input images.
+description: Edit explicit input images with native Codex image tools, with an optional user-selected legacy FAL provider.
 ---
 
 # image-blast-image-edit
 
-Use this skill for source cleanup, object references, clean plates, masks, or
-standalone image edits.
-
 ## Instructions
 
-1. Require at least one input image and one edit prompt.
-2. Inspect the output directory with `ls -a`.
-3. Use explicit `--role` and `--output-slug` values when the caller provides
-   semantics such as `plate`, `object-mask`, or `image-edit`.
-4. Run:
-
-   ```bash
-   node .claude/scripts/image-edit/generate-edit.mjs \
-     --image "<input image path>" \
-     --prompt "<edit prompt>" \
-     --output-dir "<output directory>" \
-     --role "<role>" \
-     --output-slug "<output slug>"
-   ```
-
-5. Optional provider override: `--provider nano-banana|gpt-image-2`.
-6. Repair missing local image files from request metadata when needed:
-
-   ```bash
-   node .claude/scripts/project/ensure-local-assets.mjs --from "<request-json-path>"
-   ```
-
-7. Report input images, output image, request metadata, role, and prompt used.
-
+1. Inspect the source image and output directory, including hidden metadata.
+   Require an actual input image and a specific edit/removal instruction.
+   Comic scenes preserve furniture/landmarks except explicit requested removals.
+2. Prefer the session's native Codex image editing tool. Use Images 2.5 if
+   explicitly selectable; otherwise use the latest available native capability.
+   Follow the tool's actual interface, inspect local targets before editing,
+   state invariants and requested changes, and save real output non-destructively.
+   Do not claim a model version that the tool did not report.
+3. Use `node .claude/scripts/project/indexed-path.mjs` to allocate an indexed
+   output/request path (see its usage). Native outputs must be copied to local
+   project files. Store provider/model (or unknown), prompt, input paths and
+   output path beside the file in hidden request JSON; never store credentials.
+   For panel references use comic-scene's register/review instead.
+4. If native tools are unavailable, report pending editing. Do not silently
+   choose a paid fallback. For explicitly selected FAL, read
+   [legacy provider instructions](references/fal.md); the preserved
+   `node .claude/scripts/image-edit/generate-edit.mjs` requires FAL_KEY.
+5. Inspect the actual output, check requested changes/invariants and report
+   real image and metadata paths. A prompt or successful API submission is
+   not a finished clean plate.

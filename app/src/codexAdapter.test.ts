@@ -10,6 +10,7 @@ const worldSidebarPath = path.join(repoRoot, 'app/src/components/WorldSidebar.ts
 
 const expectedSkills = [
   'image-blast-3d',
+  'image-blast-comic-scene',
   'image-blast-image-edit',
   'image-blast-plate',
   'image-blast-project',

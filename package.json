@@ -8,7 +8,8 @@
     "dev": "bun --cwd=app run dev",
     "build": "bun --cwd=app run build",
     "preview": "bun --cwd=app run preview",
-    "test": "bun --cwd=app run test",
-    "typecheck": "bun --cwd=app run typecheck"
+    "test": "node --test tests/*.test.mjs && bun --cwd=app run test",
+    "typecheck": "bun --cwd=app run typecheck",
+    "test:continuity": "node --test tests/*.test.mjs"
   }
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { pathToFileURL } from "node:url";
 import { readdir, rename } from "node:fs/promises";
 import path from "node:path";
 import {
@@ -19,7 +20,7 @@ import {
 } from "../asset-pipeline/request-metadata.mjs";
 
 const PROJECT_DIRS = ["source", "output", "output/world", "output/sfx"];
-const RESERVED_OUTPUT_DIRS = new Set(["world", "sfx"]);
+const RESERVED_OUTPUT_DIRS = new Set(["world", "sfx", "references"]);
 const MODEL_EXTENSIONS = new Set([".glb", ".obj", ".fbx", ".usdz"]);
 const STAGE_EXTENSIONS = new Set([
   ".avif",
@@ -224,12 +225,17 @@ export async function ensureProjectState(options) {
       world: path.join(worldDir, "output", "world"),
       sfx: worldSfxPath,
       scene_json: scenePath,
-      image: imagePath
+      image: imagePath,
+      continuity: path.join(worldDir, "continuity"),
+      references: path.join(worldDir, "output", "references")
     },
     state: {
       has_world: Boolean(await latestIndexed(worldOutputPath, "world")),
       has_world_operation: worldOutputFiles.some(isWorldRequest) || await pathExists(path.join(worldOutputPath, "operation.json")),
       has_image: await pathExists(imagePath),
+      has_scene_bible: await pathExists(path.join(worldDir, "continuity", "scene-bible.json")),
+      has_camera_bible: await pathExists(path.join(worldDir, "continuity", "camera-bible.json")),
+      has_reference_manifest: await pathExists(path.join(worldDir, "continuity", "asset-manifest.json")),
       source_image_count: sourceImageFiles.length,
       source_analysis_count: sourceAnalysisFiles.length,
       object_counts: objectCounts(objects),
@@ -257,7 +263,7 @@ async function main() {
   console.log(JSON.stringify(state, null, 2));
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   main().catch((error) => {
     console.error(error.message);
     process.exit(1);
