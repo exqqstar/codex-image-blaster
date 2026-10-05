@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "scene_id": "study",
+  "revision": 1,
+  "status": "locked",
+  "title": "Author-designed study",
+  "description": "A rectangular study with one desk, a west door and an east window on the north wall.",
+  "coordinate_system": "right-handed-y-up-meters",
+  "reference_images": [],
+  "style": "Ink line art with muted warm colors.",
+  "lighting": "Daylight enters the east window from camera right.",
+  "invariants": [
+    "Exactly one west door and one east window; never mirror their arrangement.",
+    "Desk remains centered unless the panel explicitly moves it.",
+    "Daylight direction stays east to west."
+  ],
+  "assumptions": [
+    "This demo is an authored set, not reconstructed from a photograph.",
+    "Boxes mark landmarks; they are not complete walls or furniture meshes."
+  ],
+  "geometry": [
+    {
+      "id": "floor",
+      "description": "Study floor footprint",
+      "position": [
+        0,
+        -0.08,
+        0
+      ],
+      "size": [
+        6,
+        0.12,
+        6
+      ],
+      "color": "#dbc9ae"
+    },
+    {
+      "id": "west-door",
+      "description": "Single door landmark on north wall",
+      "position": [
+        -2,
+        1.05,
+        -2.5
+      ],
+      "size": [
+        0.95,
+        2.1,
+        0.12
+      ],
+      "color": "#997555"
+    },
+    {
+      "id": "east-window",
+      "description": "Single daylight window on north wall",
+      "position": [
+        1.7,
+        1.7,
+        -2.5
+      ],
+      "size": [
+        1.5,
+        1.2,
+        0.12
+      ],
+      "color": "#91c6de"
+    },
+    {
+      "id": "desk",
+      "description": "Central wooden desk composition volume",
+      "position": [
+        0,
+        0.45,
+        0
+      ],
+      "size": [
+        1.8,
+        0.9,
+        0.85
+      ],
+      "color": "#ba986e"
+    },
+    {
+      "id": "cabinet",
+      "description": "Low cabinet on east side",
+      "position": [
+        2.25,
+        0.6,
+        -0.6
+      ],
+      "size": [
+        0.6,
+        1.2,
+        1.5
+      ],
+      "color": "#8c9f97"
+    }
+  ]
+}

@@ -1,17 +1,11 @@
 import { describe, it, expect } from 'vitest'
-import dotenv from 'dotenv'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env') })
-
-describe('env vars', () => {
-  it('WORLD_LABS_API_KEY is set', () => {
-    expect(typeof process.env.WORLD_LABS_API_KEY).toBe('string')
-    expect(process.env.WORLD_LABS_API_KEY!.length).toBeGreaterThan(0)
-  })
-
-  it('FAL_KEY is set', () => {
-    expect(typeof process.env.FAL_KEY).toBe('string')
-    expect(process.env.FAL_KEY!.length).toBeGreaterThan(0)
+describe('optional provider configuration', () => {
+  it('ships no active provider credentials in the no-key example', () => {
+    const example = fs.readFileSync(path.resolve(__dirname, '../../.env.example'), 'utf8')
+    const active = example.split(/\r?\n/).filter(line => line.trim() && !line.trim().startsWith('#'))
+    expect(active).toEqual([])
   })
 })

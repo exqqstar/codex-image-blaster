@@ -10,6 +10,9 @@ image-edit, 3D, and SFX flows.
 
 ## Instructions
 
+This is an optional enhancement. Do not invoke it as a prerequisite for comic
+scene references or merely because an API key is configured.
+
 This skill runs in two modes:
 
 - **Discovery mode**: normal user requests. Do not run a paid FAL request,

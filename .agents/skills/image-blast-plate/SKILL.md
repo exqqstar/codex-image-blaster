@@ -1,53 +1,29 @@
 ---
 name: image-blast-plate
-description: Generate one clean plate image for a world by removing confirmed foreground objects or user-specified content.
+description: Create a clean plate for explicitly requested removals using native Codex editing, with optional FAL fallback.
 ---
 
 # image-blast-plate
 
-Use this skill after object confirmation when the world source should be cleaned
-before static environment generation.
-
 ## Instructions
 
-1. Require a world slug.
-2. Inspect `worlds/<slug>/source/` and `worlds/<slug>/output/` with `ls -a`.
-3. Select the source image from the user request or the newest visible source
-   image in `worlds/<slug>/source/`.
-4. Build one removal-only prompt from confirmed object names
-   (`worlds/<slug>/output/<object>/object.json`; use `object.name`, adding
-   short details from `object.description` when needed) plus any extra user
-   removal instructions.
-   - **Keep the prompt removal-only**: name what to remove. Do not list
-     objects or scene features to keep, and do not add fill-in/background
-     repair instructions unless the user explicitly asked for that wording.
-   - **One pass only**: remove all requested content in a single image edit.
-     Do not split removals across multiple calls or one edit per object.
-5. Generate the plate in the source directory:
-
-   ```bash
-   node .claude/scripts/image-edit/generate-edit.mjs \
-     --image "<selected source image path>" \
-     --prompt "remove the following from the image: <confirmed object names and user removals>" \
-     --output-dir "worlds/<slug>/source" \
-     --role plate \
-     --output-slug "<source-slug>-plate"
-   ```
-
-6. The output must use the next visible source index, such as
-   `1-room-plate.png`, not `0-room-plate.png`.
-7. Optional provider override: `--provider nano-banana|gpt-image-2`.
-8. Repair missing local image files from request metadata when needed:
-
-   ```bash
-   node .claude/scripts/project/ensure-local-assets.mjs --from "<request-json-path>"
-   ```
-
-9. Refresh project state:
-
-   ```bash
-   node .claude/scripts/project/project-state.mjs --world "<slug>"
-   ```
-
-10. Report input image, output plate image, request metadata, and prompt used.
-
+1. Inspect the source image and output directory, including hidden metadata.
+   Require an actual input image and a specific edit/removal instruction.
+   Comic scenes preserve furniture/landmarks except explicit requested removals.
+2. Prefer the session's native Codex image editing tool. Use Images 2.5 if
+   explicitly selectable; otherwise use the latest available native capability.
+   Follow the tool's actual interface, inspect local targets before editing,
+   state invariants and requested changes, and save real output non-destructively.
+   Do not claim a model version that the tool did not report.
+3. Use `node .claude/scripts/project/indexed-path.mjs` to allocate an indexed
+   output/request path (see its usage). Native outputs must be copied to local
+   project files. Store provider/model (or unknown), prompt, input paths and
+   output path beside the file in hidden request JSON; never store credentials.
+   For panel references use comic-scene's register/review instead.
+4. If native tools are unavailable, report pending editing. Do not silently
+   choose a paid fallback. For explicitly selected FAL, read
+   [legacy provider instructions](references/fal.md); the preserved
+   `node .claude/scripts/image-edit/generate-edit.mjs` requires FAL_KEY.
+5. Inspect the actual output, check requested changes/invariants and report
+   real image and metadata paths. A prompt or successful API submission is
+   not a finished clean plate.

@@ -1,28 +1,73 @@
 # Codex Image Blaster
 
-This repository is a Codex-native adapter for image-blaster. Codex replaces the
-orchestrator role that the original Claude skills performed, while the existing
-asset protocol, React viewer, and generation scripts stay intact.
+Codex-first comic scene continuity workflow with optional image-to-3D providers.
+Preserve `.agents/skills/`, the existing Three.js viewer and disk-first legacy
+asset protocol. Do not relocate `.claude/scripts/` in ordinary workflow changes.
 
-## Setup
+## Setup and defaults
 
-1. Run `bun install` from the repository root.
-2. Copy `.env.example` to `.env`.
-3. Set `WORLD_LABS_API_KEY` for World Labs world generation.
-4. Set `FAL_KEY` for FAL-backed image editing, 3D objects, and SFX.
+Node 22+ runs the continuity helper without dependencies, `.env` or API keys.
+Codex's native image tool is preferred when actually available in the session;
+its availability cannot be inferred from this repository or a ChatGPT plan.
+Prefer Images 2.5 if explicitly selectable; never claim an unreported version.
+If unavailable, retain prompts and use local composition guides when useful.
+Do not silently switch to paid generation.
 
-Codex can drive the workflow, but Codex does not replace provider APIs. World
-Labs, FAL, Meshy, Hunyuan, and ElevenLabs-style SFX generation still require the
-provider credentials expected by the scripts.
+For the optional viewer use `bun install` / `bun run dev`, or
+`npm ci --prefix app` / `npm run dev --prefix app`.
+`WORLD_LABS_API_KEY` is only for explicitly chosen World Labs worlds.
+`FAL_KEY` is only for explicitly chosen legacy edits, object GLBs and SFX.
+Presence of keys is not authorization to spend.
 
-## Keep The Core Pipeline Stable
+## Directory protocol
 
-Do not rewrite the app, data protocol, or provider scripts unless the user asks
-for that explicitly. The Codex adapter should keep using the current script
-entrypoints:
+```text
+worlds/<slug>/
+  project.json                 # legacy envelope
+  image.json                   # source analysis
+  scene.json                   # legacy viewer placement, not a scene bible
+  source/                      # canonical images and analyses
+  continuity/
+    scene-bible.json
+    camera-bible.json
+    storyboard.json
+    asset-manifest.json
+  output/
+    references/                # versioned comic images/guides/requests
+    world/                     # optional legacy World Labs JSON/SPZ/GLB
+    <object-slug>/              # optional object.json/models
+    sfx/                       # optional audio
+  reference-gallery.html
+```
+
+## Codex workflow
+
+1. Inspect state/input, stage the user's image with:
+   `node .claude/scripts/project/project-state.mjs --world "<slug>" --stage-input`.
+2. Use `image-blast-uncover` for source analysis. Object candidates are not
+   automatic 3D jobs. Architecture and furniture are comic continuity anchors.
+3. Use `image-blast-comic-scene` to author scene/camera bibles and ordered panels.
+   Separate observed facts from assumptions; preserve canonical images and
+   author intent. Do not invent hidden architecture as established fact.
+4. `image-blast-world` defaults to scene references, not World Labs. Native
+   requests must be executed by an available image tool, registered from real
+   saved files and reviewed visually. Local SVGs are composition proxies.
+5. Check landmark/prop/material/light/screen-direction/wardrobe continuity;
+   record acceptance or rejection with concrete notes. Replan after a layout
+   change; never overwrite old images. Plan alone does not mean generation done.
+6. Report actual output paths and pending limitations. Open the local reference
+   gallery; the 3D viewer is only necessary when 3D assets are requested.
+
+The new helper entrypoint:
+`node .agents/skills/image-blast-comic-scene/scripts/comic-scene.mjs`.
+Read its skill and data contract for commands/schemas. Execute project mutations
+sequentially; no concurrent generation-index allocation within one project.
+
+## Optional enhancements
+
+Keep these existing entrypoints and their output protocols:
 
 ```bash
-node .claude/scripts/project/project-state.mjs
 node .claude/scripts/world/generate-world.mjs
 node .claude/scripts/asset-pipeline/generate-single-asset.mjs
 node .claude/scripts/image-edit/generate-edit.mjs
@@ -30,140 +75,29 @@ node .claude/scripts/sfx/fal-elevenlabs-sfx.mjs
 node .claude/scripts/project/ensure-local-assets.mjs
 ```
 
-The `.claude/scripts` path is intentionally preserved in the first Codex-native
-version. Moving scripts into a generic `scripts/` directory is a separate cleanup
-phase and should not be mixed into ordinary workflow fixes.
+Call only requested providers/assets. Clean plates are optional and preserve
+all continuity props except explicit removals. Prefer native tools for images;
+legacy FAL scripts require FAL_KEY. Recommend a few useful object GLBs rather
+than converting every detection. SFX is optional and never needed for comics.
+World Labs generation must be explicitly selected; read the optional reference
+in `image-blast-world`. Preserve resume metadata and local asset downloads.
 
-## Directory Protocol
+Before a provider-heavy run, report its scope and expected call count. Continue
+within existing authorization; ask only if a new provider/cost is not authorized.
+Stop on authorization, quota, billing or repeated provider errors rather than
+blindly retrying or changing providers.
 
-```text
-input/
+## Verification and safety
 
-worlds/
-  <world-slug>/
-    project.json
-    scene.json
-    image.json
-    source/
-      0-<slug>.<ext>
-      <image>.json
-    output/
-      world/
-      sfx/
-      <object-slug>/
-        object.json
-        sfx/
-```
+`node --test tests/*.test.mjs` verifies the no-key workflow.
+Viewer checks: `npm run typecheck --prefix app`, `npm run test --prefix app`,
+`npm run build --prefix app` (or root Bun scripts). No dummy API keys required.
+Offline checks do not prove paid generation or image quality.
 
-`source/` holds stable source images, clean plates, and image analysis JSON.
-`output/world/` holds World Labs assets. `output/<object-slug>/` holds object
-intent, reference images, models, and object SFX. `scene.json` is the viewer
-placement state.
-
-Generated assets are disk-first. Provider URLs in JSON and request metadata are
-provenance and resume data; the frontend should load local `/worlds/...` files.
-
-## Indexed Artifact Convention
-
-Generated files use this convention:
-
-```text
-N-slug.ext
-.N-slug-request.json
-.N-slug__scope-request.json
-```
-
-`N` is the generation index. `0` is usually the original source image. Hidden
-request JSON files sit beside the generated artifacts and store provider request
-state, resumability metadata, downloaded files, and stripped provider responses.
-
-## Codex Workflow
-
-When the user asks to image-blast an input image:
-
-1. Inspect project state and `input/`.
-2. Initialize or inspect the world project:
-
-   ```bash
-   node .claude/scripts/project/project-state.mjs --world "<slug>" --stage-input
-   ```
-
-3. If source images exist and `image.json` is missing, use the
-   `image-blast-uncover` skill to analyze the image and create object candidates.
-4. Ask the user to confirm which object candidates should become generated
-   objects unless they explicitly asked for a one-shot run.
-5. Create or update one `object.json` per approved object.
-6. Generate a clean plate with `image-blast-plate` when object removal is needed.
-7. Generate the static world with `image-blast-world`.
-8. Generate each object model with `image-blast-3d`.
-9. Generate world ambience and object impact sounds with `image-blast-sfx`.
-10. Start or refresh the viewer with `bun run dev` and report the route.
-
-Prefer check-ins after analysis and object confirmation. If the user asks for a
-full one-shot blast, keep going through the steps above and report the generated
-paths at the end.
-
-## Provider Cost Controls
-
-World Labs generation should be treated as the primary visual payoff. FAL object
-models and SFX are optional enhancements and can become expensive when run for
-every detected object.
-
-Before provider-heavy work, report:
-
-- which providers will be called,
-- which objects will be generated,
-- how many object assets are in scope,
-- what stop conditions will be used for authorization, quota, billing, or
-  repeated provider errors.
-
-Default to a world-first workflow:
-
-1. Analyze the image.
-2. Ask the user to confirm object candidates.
-3. Generate the clean plate and World Labs world.
-4. Let the user inspect the static world.
-5. Generate only approved, high-value object GLBs.
-6. Generate SFX last.
-
-Do not generate every detected object by default. For a first pass, recommend
-1-4 objects that are large, interactive, replaceable, or visually important.
-Skip small props unless the user explicitly chooses them.
-
-Run provider calls sequentially when the user is testing keys, when provider
-authorization is uncertain, or after any `403`, quota, or billing-related
-failure. Stop and report the failing provider and request metadata path instead
-of blindly retrying.
-
-## Viewer
-
-The viewer is under `app/`. It reads the `worlds/` directory through the custom
-Vite plugin in `app/vite.config.ts`. For local development:
-
-```bash
-bun run dev
-```
-
-For verification:
-
-```bash
-bun run typecheck
-WORLD_LABS_API_KEY=dummy FAL_KEY=dummy bun run test
-bun run build
-```
-
-The dummy-key test run only verifies local behavior. Real generation requires
-valid provider keys.
-
-## Safety Rules
-
-- Do not commit `.env`, `input/` payloads, generated `worlds/` assets,
-  `node_modules/`, or `app/dist/`.
-- Do not load large generated images into model context just to inspect them.
-  Use paths, JSON metadata, and the viewer instead.
-- Do not edit `object.json` with transient generation status. Generated state
-  belongs in indexed artifacts and hidden request JSON.
-- Use `ls -a` before reading generated output directories so hidden request
-  metadata is considered.
-- Preserve existing user-generated worlds and do not delete generated assets
-  unless the user explicitly asks.
+- Preserve user worlds, images and unrelated edits; do not delete generated data.
+- Never commit `.env`, input payloads, generated `worlds/`, dependencies or builds.
+- Generated artifacts use `N-slug.ext` and hidden `.N-slug-request.json`.
+- Inspect hidden metadata too; provider URLs are provenance/resume data, not
+  frontend delivery URLs. The frontend must use local `/worlds/...` assets.
+- `object.json` stores durable intent, not transient request status.
+- Bible and reference hashes prevent stale reuse; visual review remains required.
