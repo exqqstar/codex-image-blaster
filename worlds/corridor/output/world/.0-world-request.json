@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "kind": "world",
+  "provider": "world-labs",
+  "endpoint": "https://api.worldlabs.ai/marble/v1",
+  "model": "marble-1.1",
+  "index": 0,
+  "status": "completed",
+  "request_id": "479dd0a8-a2e3-4df8-b3a3-e34c50f23217",
+  "submitted_at": "2026-10-05T05:08:33.430Z",
+  "prompt": "An empty indoor tiled corridor beside a stairwell, viewed obliquely toward the stair opening. Beige rectangular floor tiles, white plaster walls and columns, a ceiling of parallel light-colored slats, and an overhead shutter assembly. A glass balustrade with metal posts and a dark handrail borders the stairwell; white metal railings continue toward the stairs. Small red and green building signs are attached to walls and railings. Bright light enters from the stairwell side and illuminates a warm-colored far wall; the corridor at left is darker. Photographic architectural appearance. Preserve the visible spatial layout and materials.",
+  "input_files": [
+    "worlds/corridor/source/0-img-2764.jpg"
+  ],
+  "output_files": [],
+  "downloaded_files": [],
+  "request": {
+    "display_name": "corridor",
+    "model": "marble-1.1",
+    "world_prompt": {
+      "type": "image",
+      "image_prompt": {
+        "source": "data_base64",
+        "data_base64": "[stripped]",
+        "extension": "jpg",
+        "mime_type": "image/jpeg"
+      },
+      "text_prompt": "An empty indoor tiled corridor beside a stairwell, viewed obliquely toward the stair opening. Beige rectangular floor tiles, white plaster walls and columns, a ceiling of parallel light-colored slats, and an overhead shutter assembly. A glass balustrade with metal posts and a dark handrail borders the stairwell; white metal railings continue toward the stairs. Small red and green building signs are attached to walls and railings. Bright light enters from the stairwell side and illuminates a warm-colored far wall; the corridor at left is darker. Photographic architectural appearance. Preserve the visible spatial layout and materials."
+    }
+  },
+  "result": {
+    "operation_id": "479dd0a8-a2e3-4df8-b3a3-e34c50f23217",
+    "created_at": "2026-10-05T05:08:39Z",
+    "updated_at": "2026-10-05T05:13:50Z",
+    "expires_at": "2026-10-05T08:08:39Z",
+    "done": true,
+    "error": null,
+    "metadata": {
+      "progress": {
+        "status": "SUCCEEDED",
+        "description": "World generation completed successfully"
+      },
+      "world_id": "7b7e4845-998a-4782-adc4-b06915c5ddef",
+      "operation_type": "world_generation",
+      "public_model_name": "marble-1.1"
+    },
+    "response": {
+      "world_id": "7b7e4845-998a-4782-adc4-b06915c5ddef",
+      "display_name": "",
+      "tags": null,
+      "assets": {
+        "mesh": {
+          "collider_mesh_url": "https://cdn.marble.worldlabs.ai/7b7e4845-998a-4782-adc4-b06915c5ddef/06e501e0.glb",
+          "hq_mesh_url": null,
+          "full_res_mesh_url": null
+        },
+        "imagery": {
+          "pano_url": "https://cdn.marble.worldlabs.ai/7b7e4845-998a-4782-adc4-b06915c5ddef/c9738e3b-f901-4b85-a3bb-7f1018cd5e43_panos/rgb_0.png"
+        },
+        "splats": {
+          "spz_urls": {
+            "500k": "https://cdn.marble.worldlabs.ai/7b7e4845-998a-4782-adc4-b06915c5ddef/4b30e2cd-3961-4819-8db1-1af8771c38d6_ceramic_500k.spz",
+            "100k": "https://cdn.marble.worldlabs.ai/7b7e4845-998a-4782-adc4-b06915c5ddef/3b43a8b5-53f3-4090-8a41-5cf3da3c5bce_dust_100k.spz",
+            "150k": "https://cdn.marble.worldlabs.ai/7b7e4845-998a-4782-adc4-b06915c5ddef/6ebc0efb-4255-4fd6-83d4-e45438ba96bc_ceramic_150k.spz",
+            "full_res": "https://cdn.marble.worldlabs.ai/7b7e4845-998a-4782-adc4-b06915c5ddef/e8afc8b8-9b49-4728-92d1-887065161b7b_ceramic.spz"
+          },
+          "semantics_metadata": {
+            "metric_scale_factor": 0.83113253,
+            "ground_plane_offset": 1.7219858
+          }
+        },
+        "thumbnail_url": "https://cdn.marble.worldlabs.ai/7b7e4845-998a-4782-adc4-b06915c5ddef/f29a3a04-6217-44cf-8c1d-15cf1211b686_sand_mpi/thumbnail.webp",
+        "caption": "The scene is an empty indoor corridor and stairwell, presented in a photographic architectural style with a calm, still atmosphere. The overall tone is one of quiet functionality, emphasizing clean lines and practical design. The corridor features beige rectangular floor tiles that extend throughout the entire space, leading to a wider area that connects to other sections of the building. White plaster walls and columns delineate the pathways, providing structural support and a uniform aesthetic. The ceiling is composed of parallel light-colored slats, beneath which an overhead shutter assembly is mounted, running the length of the corridor. A glass balustrade with metal posts and a dark handrail borders a stairwell, curving downwards to unseen lower levels; white metal railings continue from this balustrade, extending around the stairwell opening toward the steps themselves. Small red and green building signs are attached to the walls and railings at various points, providing directional or informational cues. Beyond the stairwell opening, bright light enters, illuminating a warm-colored far wall, suggesting an exterior space or a well-lit atrium. In contrast, the corridor on the left, extending away from the stairwell, is notably darker, hinting at less direct light or deeper interior spaces. The 360 scene is faultless."
+      },
+      "created_at": null,
+      "updated_at": null,
+      "permission": {
+        "public": false,
+        "allowed_readers": [],
+        "allowed_writers": [],
+        "allow_id_access": false
+      },
+      "world_prompt": null,
+      "world_marble_url": "https://marble.worldlabs.ai/world/7b7e4845-998a-4782-adc4-b06915c5ddef",
+      "model": null
+    },
+    "cost": {
+      "total_credits": 1580,
+      "line_items": [
+        {
+          "name": "Pano generation (image, non-pano)",
+          "credits": 80
+        },
+        {
+          "name": "World generation",
+          "credits": 1500
+        }
+      ]
+    }
+  }
+}
